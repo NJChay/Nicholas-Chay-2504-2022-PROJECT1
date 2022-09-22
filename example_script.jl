@@ -13,13 +13,13 @@ p2 = 2x^4 - 4x^2 - 3x + 3
 @show derivative(p1*p2)
 @show derivative(p1)*p2 + p1*derivative(p2);
 
-prime = 17
-p = mod((7x^3 + 2x^2 + 8x + 1)*(x^2+x+1),prime)
-println("Will factor this polynomial (mod $prime): ", p)
-factorization = factor(p,prime)
+prime1 = 17
+p = mod((7x^3 + 2x^2 + 8x + 1)*(x^2+x+1),prime1)
+println("Will factor this polynomial (mod $prime1): ", p)
+factorization = factor(p,prime1)
 println("Here is the factorization: ", factorization)
 
-pr = mod(expand_factorization(factorization),prime)
+pr = mod(expand_factorization(factorization),prime1)
 println("Reconstructing: ", pr)
 
 x = x_poly()

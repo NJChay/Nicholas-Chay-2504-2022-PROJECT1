@@ -31,8 +31,8 @@ println("p1+p2 =",p1+p2)
 println("p3+p4 =",p3+p4)
 
 println("\nGCD")
- println("GCD of p1,p2 and 6 =",gcd(p1,p2,6))
- println("GCD of p3,p4 and 20 =",gcd(p3,p4,20))
+ println("GCD of p1,p2 and 5 =",gcd(p1,p2,5))
+ println("GCD of p3,p4 and 11=",gcd(p3,p4,11))
 
 println("\nMultiplication")
  println("p1*p2 =", p1*p2)
@@ -43,10 +43,16 @@ println("p1^4 =", p1^4)
 println("p1^8 =", p2^8)
 
 println("\nDerivative")
+println("derivative of p1 = ", derivative(p1))
+println("derivative of p2 = ", derivative(p2))
+
 
 println("\nFactorization")
  println("factors of p1 with prime 3:",factor(p1,3))
- println("fatcors of p3 with prime 5:", factor(p3,5))
+ println("fatcors of p2 with prime 5:", factor(p2,5))
+ println("factors of p3 with prime 11:",factor(p3,11))
+ println("fatcors of p4 with prime 17:", factor(p4,17))
 
-println("\nReconstruction")
+
+
 

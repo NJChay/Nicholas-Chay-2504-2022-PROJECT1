@@ -100,6 +100,8 @@ Multiply two terms.
 """
 *(t1::Term, t2::Term)::Term = Term(t1.coeff * t2.coeff, t1.degree + t2.degree)
 
+^(t1::Term, n::Int)::Term = Term(t1.coeff^n,t1.degree*n)
+
 
 """
 Compute the symmetric mod of a term with an integer.

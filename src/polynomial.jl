@@ -97,6 +97,8 @@ struct PolynomialSparseBI
 end
 
 
+PolynomialSparse(p::PolynomialSparseBI) = PolynomialSparse(Term.(p.terms))
+
 
 """
 This function maintains the invariant of the Polynomial type so that there are no zero terms beyond the highest
@@ -363,7 +365,7 @@ end
 """
 Pop the leading term out of the polynomial. When polynomial is 0, keep popping out 0.
 """
-function pop!(p::Union{PolynomialDense, PolynomialSparse})::Term 
+function pop!(p::PolynomialDense)::Term 
     popped_term = pop!(p.terms) #last element popped is leading coefficient
 
     while !isempty(p.terms) && iszero(last(p.terms))
@@ -377,11 +379,25 @@ function pop!(p::Union{PolynomialDense, PolynomialSparse})::Term
     return popped_term
 end
 
-function pop!(p::PolynomialSparseBI)::BTerm 
-    popped_term = pop!(p.terms) #last element popped is leading coefficient
+function pop!(p::PolynomialSparse)::Term 
+    popped_term = popfirst!((p.terms)) #last element popped is leading coefficient
 
     while !isempty(p.terms) && iszero(last(p.terms))
-        pop!(p.terms)
+        popfirst!(p.terms)
+    end
+
+    if isempty(p.terms)
+        push!(p.terms, zero(Term))
+    end
+
+    return popped_term
+end
+
+function pop!(p::PolynomialSparseBI)::BTerm 
+    popped_term = popfirst!(p.terms) #last element popped is leading coefficient
+
+    while !isempty(p.terms) && iszero(last(p.terms))
+        popfirst!(p.terms)
     end
 
     if isempty(p.terms)
@@ -568,7 +584,7 @@ end
 """
 Power of a polynomial mod prime.
 """
-function pow_mod(p::Union{PolynomialDense, PolynomialSparse, PolynomialSparseBI}, n::Int, prime::Int)
+function pow_mod(p::PolynomialDense, n::Int, prime::Int)
     n < 0 && error("No negative power")
     out = one(p)
     for _ in 1:n
@@ -576,4 +592,24 @@ function pow_mod(p::Union{PolynomialDense, PolynomialSparse, PolynomialSparseBI}
         out = mod(out, prime)
     end
     return out
+end
+
+function pow_mod(p::PolynomialSparse,n::Int,prime::Int)
+    p=PolynomialModP(p,prime)
+    return poly((p^n))
+end
+
+function pow_mod(p::PolynomialSparseBI,n::Int,prime::Int)
+    #Creates a binary representation of n
+    m=digits(n, base=2)
+    ans=1
+    w=p
+    for i in m
+        if i==1
+            ans*=w
+            ans=mod(ans,prime)
+        end
+        w*=w
+    end
+    return ans
 end

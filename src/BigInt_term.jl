@@ -30,6 +30,8 @@ function degree(t::BTerm)
     return t.degree
 end
 
+Term(b::BTerm) = Term(Int(b.coeff),b.degree)
+
 """
 Creates the zero term.
 """
@@ -100,8 +102,13 @@ Multiply two terms.
 """
 *(t1::BTerm, t2::BTerm)::BTerm = BTerm(t1.coeff * t2.coeff, t1.degree + t2.degree)
 
+
+function ^(t1::BTerm, n::Int)
+    return BTerm(t1.coeff^n,t1.degree*n)
+end
 """
 Compute the symmetric mod of a term with an integer.
+
 """
 mod(t::BTerm, p::Int) = BTerm(mod(t.coeff,p), t.degree)
 
